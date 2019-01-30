@@ -2,22 +2,32 @@ var c = document.getElementById("slate");
 var ctx = c.getContext("2d");
 
 var actionState = "dot";
+var stateHeader = document.getElementById("stateHeader");
 
 c.addEventListener("click", function(e){
   if(actionState == "dot"){
-    ctx.ellipse(e.clientX, e.clientY, 10, 10, 0, 0, 2);
+    ctx.beginPath();
+    ctx.ellipse(e.clientX, e.clientY, 10, 10, Math.PI / 4, 0, 2 * Math.PI);
+    ctx.fill();
   } else {
-    ctx.fillRect(e.clientX, e.clientY, 10, 10);
+    ctx.fillRect(e.clientX, e.clientY, 20, 20);
   }
 });
 
-var btn = document.getElementById("toggleActions");
-btn.addEventListener("click", function(e){
+var toggleBtn = document.getElementById("toggleActions");
+toggleBtn.addEventListener("click", function(e){
   if(actionState == "dot"){
-    btn.innerHTML = "Toggle to Dots";
+    toggleBtn.innerHTML = "Toggle to Dots";
+    stateHeader.innerHTML = "It's RECTANGLE time!"
     actionState = "rect";
   } else {
-    btn.innerHTML = "Toggle to Rectangles";
+    stateHeader.innerHTML = "It's DOT time!";
+    toggleBtn.innerHTML = "Toggle to Rectangles";
     actionState = "dot";
   }
-})
+});
+
+var clearButton = document.getElementById("clearCanvas")
+clearButton.addEventListener("click", function(e){
+    ctx.clearRect(0,0, c.width, c.height);
+});
