@@ -5,12 +5,13 @@ var actionState = "dot";
 var stateHeader = document.getElementById("stateHeader");
 
 c.addEventListener("click", function(e){
+  clickEvt = getMousePos(c, e);
   if(actionState == "dot"){
     ctx.beginPath();
-    ctx.ellipse(e.clientX, e.clientY, 10, 10, Math.PI / 4, 0, 2 * Math.PI);
+    ctx.ellipse(clickEvt.x, clickEvt.y, 10, 10, Math.PI / 4, 0, 2 * Math.PI);
     ctx.fill();
   } else {
-    ctx.fillRect(e.clientX, e.clientY, 20, 20);
+    ctx.fillRect(clickEvt.x - 10, clickEvt.y - 10, 20, 20);
   }
 });
 
@@ -31,3 +32,11 @@ var clearButton = document.getElementById("clearCanvas")
 clearButton.addEventListener("click", function(e){
     ctx.clearRect(0,0, c.width, c.height);
 });
+
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    }
+}
