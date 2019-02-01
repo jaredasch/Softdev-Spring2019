@@ -5,13 +5,12 @@ var actionState = "dot";
 var stateHeader = document.getElementById("stateHeader");
 
 c.addEventListener("click", function(e){
-  clickEvt = getMousePos(c, e);
   if(actionState == "dot"){
     ctx.beginPath();
-    ctx.ellipse(clickEvt.x, clickEvt.y, 10, 10, Math.PI / 4, 0, 2 * Math.PI);
+    ctx.ellipse(e.offsetX, e.offsetY, 10, 10, Math.PI / 4, 0, 2 * Math.PI);
     ctx.fill();
   } else {
-    ctx.fillRect(clickEvt.x, clickEvt.y, 20, 20);
+    ctx.fillRect(e.offsetX, e.offsetY, 20, 20);
   }
 });
 
@@ -33,10 +32,16 @@ clearButton.addEventListener("click", function(e){
     ctx.clearRect(0,0, c.width, c.height);
 });
 
-function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
-    }
-}
+/*
+preventDefault()
+Eliminates the default function of an object(ex button,checkbox,form). After clicking a button once where the preventDefault() function is triggered, that buttons functionality would become mute.
+
+beginPath()
+Saves the point at which you are drawing lines. It is like if Mario walked down the map, the game would start with beginPath() and save the last position he was at before starting another beginPath()
+
+e.offsetX
+Gives the x-position of the mouse at the instance it is clicked, based on the screen which is a grid of pixels.
+
+e.offsetY
+Gives the y-position of the mouse at the instance it is clicked , based on the screen which is a grid of pixels.
+*/
