@@ -8,10 +8,10 @@ c.addEventListener("click", function(e){
   clickEvt = getMousePos(c, e);
   if(actionState == "dot"){
     ctx.beginPath();
-    ctx.ellipse(clickEvt.x, clickEvt.y, 10, 10, Math.PI / 4, 0, 2 * Math.PI);
+    ctx.ellipse(e.offsetX, e.offsetY, 10, 10, Math.PI / 4, 0, 2 * Math.PI);
     ctx.fill();
   } else {
-    ctx.fillRect(clickEvt.x, clickEvt.y, 20, 20);
+    ctx.fillRect(e.offsetX, e.offsetY, 20, 20);
   }
 });
 
@@ -36,7 +36,7 @@ clearButton.addEventListener("click", function(e){
 function getMousePos(canvas, evt) {
     var rect = canvas.getBoundingClientRect();
     return {
-        x: evt.clientX - rect.left,
-        y: evt.clientY - rect.top
+        x: evt.offsetX,
+        y: evt.offsetY
     }
 }

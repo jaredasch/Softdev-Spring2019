@@ -18,9 +18,9 @@ class BinaryTree {
                         current.right = new BinaryTreeNode(value);
                         current.right.parent = current;
                         splay(this, current.right);
-                        break;
+                        return true;
                     }
-                } else {
+                } else if (current.value.key > value.key) {
                     if(current.left){
                         current = current.left;
                     } else {
@@ -28,8 +28,11 @@ class BinaryTree {
                         current.left.parent = current;
                         while(current.left )
                         splay(this, current.left);
-                        break;
+                        return true;
                     }
+                } else {
+                    throw "No duplicate keys allowed";
+                    return false;
                 }
             }
         }
@@ -51,6 +54,11 @@ class BinaryTree {
         throw "No item found with key " + key;
     }
 
+    split(key){
+        get(key);
+        return {smaller: this.root.left, larger: this.root.right}
+    }
+
     delete(key){
         let node = this.get(key);
         if(node.right == null && node.left == null){
@@ -67,6 +75,7 @@ class BinaryTree {
                 biggestRemaining.parent.left = null;
             }
         } else {
+            console.log("Something wrong")
             let smallestRight = node.right;
             while(smallestRight.left){
                 smallestRight = smallestRight.left;
@@ -82,6 +91,7 @@ class BinaryTree {
                     smallestRight.right.parent = smallestRight.parent;
                 }
             }
+            this.root.left.parent = this.root
         }
     }
 
@@ -172,12 +182,90 @@ function splay(tree, node){
     }
 }
 
+function join(S, T){ // Assuming for all T > S
+    largestS = S;
+    while(largestS.right){
+        largestS = largestS.right;
+    }
+    splay(S, largestS);
+    S.right = T;
+}
+
+function maxHeight(treeNode){
+    if(treeNode == null){
+        return 0;
+    } else {
+        return 1 + Math.max(maxHeight(treeNode.left), maxHeight(treeNode.right));
+    }
+}
+
 b = new BinaryTree();
-b.insert({key: 10});
-b.insert({key: 15});
-b.insert({key: 5});
-b.insert({key: 20});
-b.insert({key: 18});
-b.insert({key: 12});
-b.insert({key: 25});
-b.display();
+// b.insert({key: 10});
+// b.insert({key: 15});
+// b.insert({key: 5});
+// b.insert({key: 20});
+// b.insert({key: 18});
+// b.insert({key: 12});
+// b.insert({key: 25});
+// b.display();
+
+var c = document.getElementById("treeCanvas");
+c.width = document.body.clientWidth;
+c.height = document.body.clientHeight;
+var ctx = c.getContext("2d");
+
+function draw_tree(tree){
+    ctx.clearRect(0, 0, c.width, c.height);
+    var height = maxHeight(tree.root);
+    scale = c.width / height;
+    draw_node(tree.root, c.width / 2, 100, scale / 5);
+}
+
+function draw_node(node, x, y, rad){
+    if(node.right){
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + 2.5 * rad, y + 2.5 * rad);
+        ctx.stroke();
+        draw_node(node.right, x + 2.5 * rad, y + 2.5 * rad, rad);
+    }
+    if(node.left){
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x - 2.5 * rad, y + 2.5 * rad);
+        ctx.stroke();
+        draw_node(node.left, x - 2.5 * rad, y + 2.5 * rad, rad);
+    }
+    var font = rad + "px sans-serif";
+    ctx.fillStyle = "white";
+    ctx.font = font;
+
+    ctx.beginPath();
+    ctx.ellipse(x, y, rad, rad, 0, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.fillStyle = "black";
+    ctx.fillText(node.value.key, x - rad / 2, y + rad / 2);
+}
+
+let insertBtn = document.getElementById("insertBtn");
+let removeBtn = document.getElementById("removeBtn");
+let splayBtn = document.getElementById("splayBtn");
+let valueInput = document.getElementById("valueInput");
+
+insertBtn.addEventListener("click", function(e){
+    var nums = valueInput.value.split(", ");
+    for(var i = 0; i < nums.length; i++){
+        b.insert({key: parseFloat(nums[i])});
+    }
+    draw_tree(b);
+});
+
+removeBtn.addEventListener("click", function(e){
+    b.delete(valueInput.value);
+    draw_tree(b);
+});
+
+splayBtn.addEventListener("click", function(e){
+    b.get(valueInput.value);
+    draw_tree(b);
+})
