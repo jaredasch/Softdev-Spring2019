@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <form action= "{{ url_for('change_ip') }}" method = "POST">
+    <input name = "new_ip" placeholder="Enter a new IP"></input>
+  </form>
+  <h1>Nobel Peace Prize</h1>
+    <h3>Physics Winner</h3>:
+      {% for each in subject %}
+        <b>{{each["year"]}}</b>
+        {% for person in each["laureates"] %}
+          {{person["firstname"]}} {{person["surname"]}}
+        {% endfor %}
+        <br>
+      {% endfor %}
+    <b>Year</b>: {{year}}<br>
+    <b>Surname</b>: {{surname}}
+</body>
+</html>
