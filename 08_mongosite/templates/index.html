@@ -2,18 +2,33 @@
 <html>
 <body>
   <form action= "{{ url_for('change_ip') }}" method = "POST">
-    <input name = "new_ip" placeholder="Enter a new IP"></input>
-  </form>
-  <h1>Nobel Peace Prize</h1>
-    <h3>Physics Winner</h3>:
+   <input name = "new_ip" placeholder="Enter a new IP"></input>
+ </form>
+  <h1>Nobel Peace Prize Winners</h1>
+
+  <h3>Winners by Year:</h3>
+  <form action= "{{ url_for('year') }}" method = "POST">
+   <input name = "year" placeholder="Enter a year"></input>
+ </form><br>
+    {% for each in year%}
+      {% for person in each["laureates"]%}
+        {{person["firstname"]}} {{person["surname"]}}: {{person["motivation"]}}<br>
+      {% endfor %}
+    {% endfor %}
+
+    <h3>All Physics Laureates:</h3>
       {% for each in subject %}
         <b>{{each["year"]}}</b>
         {% for person in each["laureates"] %}
-          {{person["firstname"]}} {{person["surname"]}}
+          {{person["firstname"]}} {{person["surname"]}},
         {% endfor %}
         <br>
       {% endfor %}
-    <b>Year</b>: {{year}}<br>
-    <b>Surname</b>: {{surname}}
+      <h3>Not just Marie Curie:</h3>
+        {% for each in surname%}
+          {% for person in each["laureates"]%}
+            {{person["firstname"]}} {{person["surname"]}}<br>
+          {% endfor %}
+        {% endfor %}
 </body>
 </html>

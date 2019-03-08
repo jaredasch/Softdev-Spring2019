@@ -1,7 +1,7 @@
 '''
-Cathy Cai, Jared Asch, and Timmayyy -- Team Bambi
+Cathy Cai, Jared Asch, and Tim Marder, Team Baseball > Football
 SoftDev2 pd6
-K#07: Import/Export Bank
+K #08: Ay Mon, Go Git It From Yer Flask
 2019-03-01
 '''
 
@@ -15,7 +15,7 @@ in the bambi db
 import pymongo, urllib.request, json
 SERVER_ADDR="206.81.7.95"
 connection=pymongo.MongoClient(SERVER_ADDR)
-db=connection.bambi
+db=connection.prize
 collection=db.nobel_prize
 
 from flask import Flask, render_template, request, url_for, redirect
@@ -23,6 +23,7 @@ app = Flask(__name__)
 
 f = open("prize.json")
 data = json.load(f)
+collection.remove()
 collection.insert_many(data["prizes"])
 
 # with urllib.request.urlopen("") as url:
@@ -33,7 +34,7 @@ collection.insert_many(data["prizes"])
 def home():
     return render_template("/index.html",
                             subject=find_subject("physics"),
-                            year=find_year("2018"),
+                            # year=find_year("2018"),
                             surname=find_surname("Curie"),
     )
 
@@ -54,6 +55,14 @@ def find_surname(surname):
     for d in collection.find({"laureates.surname" : surname}):
         l.append(d)
     return l
+
+@app.route("/year", methods = ["POST"])
+def year():
+    year = request.form.get("year")
+    return render_template("/index.html",
+                            subject=find_subject("physics"),
+                            year=find_year(year),
+                            surname=find_surname("Curie"))
 
 @app.route("/change_ip", methods = ["POST"])
 def change_ip():
