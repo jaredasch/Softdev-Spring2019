@@ -7,6 +7,8 @@ function dot(x, y){
     c.setAttribute("r", 25);
     c.setAttribute("fill", "blue");
     c.setAttribute("stroke", "blue");
+    c.setAttribute("vx", 1);
+    c.setAttribute("vy", 1);
     return c;
 }
 
@@ -27,10 +29,18 @@ function clearSvg(){
 }
 
 function moveSvg(){
-    for(dot in pic.children){
-        dot.setAttribute("cx", dot.getAttribute("cx") + 1);
-        dot.setAttribute("cy", dot.getAttribute("cy") + 1);
+    for(var i = 0; i < pic.children.length; i++){
+        console.log(i)
+        pic.children[i].setAttribute("cx", parseInt(pic.children[i].getAttribute("cx")) + parseInt(pic.children[i].getAttribute("vx")));
+        pic.children[i].setAttribute("cy", parseInt(pic.children[i].getAttribute("cy")) + parseInt(pic.children[i].getAttribute("vy")));
+        if(pic.children[i].getAttribute("cx") >= 500 || pic.children[i].getAttribute("cx") <= 0){
+            pic.children[i].setAttribute("vx", pic.children[i].getAttribute("vx") * -1 );
+        }
+        if(pic.children[i].getAttribute("cy") >= 500 || pic.children[i].getAttribute("cy") <= 0){
+            pic.children[i].setAttribute("vy", pic.children[i].getAttribute("vy") * -1 );
+        }
     }
+    window.requestAnimationFrame(moveSvg);
 }
 
 pic.addEventListener("click", function(e){
@@ -47,9 +57,11 @@ pic.addEventListener("click", function(e){
         } else {
             pic.removeChild(e.target);
             pic.appendChild(dot(randint(0, 500), randint(0, 500)));
+
         }
     }
 });
+
 
 function randint(min, max){
     return Math.floor((max - min) * Math.random()) + min;
