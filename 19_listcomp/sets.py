@@ -1,8 +1,13 @@
+# Jared Asch
+# SoftDev2 pd6
+# K19 -- Ready, Set, Math!
+# 2019-04-17
+
 def union(set1, set2):
     '''Returns union of two sets'''
     result = [x for x in set2 if x not in set1] + [x for x in set1]
     return result
-    
+
 print("Testing union")
 print( union([1,2,3], [2,3,4]) )
 print( union([1,2,3], [4,5,6]) )

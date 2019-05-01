@@ -1,3 +1,8 @@
+# Jared Asch
+# SoftDev2 pd6
+# K19 -- Reductio ad Absurdum
+# 2019-04-29
+
 from functools import reduce
 
 def frequencyOword(filename, word):

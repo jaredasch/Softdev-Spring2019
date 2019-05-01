@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href = "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <h1 class = "title">Splay Trees</h1>
+    <a href = "https://www.youtube.com/watch?v=ATWGyap_OBQ" style = "display: block; width: 100%; text-align: center;">View Demo</a>
+    <h3 style = "text-align: center;">Jared Asch</h3>
+    <div class = "container">
+        <div class = "section-odd row">
+            <h2>Issues with Regular Binary Trees</h2>
+            <p>
+                While regular binary trees can run most operations in O(logn) time (n is the number of elements in the tree), this is an oversimplification of its actual time complexity for most operations, which is O(h), where h is the height of the tree.
+            </p>
+            <p>
+                If elements are inserted into a binary tree in a certain order, the tree will essentially turn into a linked list, making its height the number of elements. This pushes the time complexity of most operations from O(logn) to O(n), a major decrease in efficiency.
+            </p>
+        </div>
+        <div class = "section-even row">
+            <h2>Self Balancing Trees &amp; Splay Trees</h2>
+            <p>
+                Because of the way in which binary trees work, there can be more than one configuration of a binary tree for the same data set, with different elements at the root. Through rearranging the tree in different ways, different properties can be acheived.
+            </p>
+            <p>
+                Splay trees adjust the structure of the tree such that after every Insert or Get operation, <strong>the most recently accessed node is at the root of the tree.</strong>
+            </p>
+        </div>
+        <div class = "section-odd row">
+            <h2>How Does it Work?</h2>
+            <p>Tree adjustments are done with left and right rotations, which change the structure of the tree, including the root, while maintaining the properties of a binary tree </p>
+            <img src = "https://upload.wikimedia.org/wikipedia/commons/2/23/Tree_rotation.png" width="100%">
+            <p>Right and left rotations are the buidling blocks of the more advanced transformations that are required for splay trees.  </p>
+        </div>
+        <div class = "section-even row">
+            <h2>Advantages of Using Splay Trees</h2>
+            <p>Much faster to access recently accessed elements</p>
+            <p>O(logn) amortized worst case time complexity – an improvement over regular binary search trees, which have a worst case time complexity of O(n)<p/>
+            <p>Repeatedly accessing the same element after an initial access will run in O(1) time</p>
+            <p>Doesn’t require extra space for storing balancing information (Red-black trees, AVL trees)</p>
+
+        </div>
+    </div>
+
+    <style>
+        .title {
+            font-weight: 600;
+            padding: 20px 20px 0px 20px;
+            text-align: center;
+            font-size: 3rem;
+        }
+
+        .section-odd, .section-even {
+            padding: 40px;
+        }
+
+        .section-odd {
+            background-color: white;
+        }
+
+        .section-even {
+            background-color: whitesmoke;
+        }
+
+        h1, h2, h3 {
+            color: #0275d8;
+            padding: 10px 0;
+            font-weight: 300;
+        }
+
+        .container {
+            box-shadow: 0px 10px 25px 10px lightgrey;
+            margin: 20px auto;
+            padding: 0;
+        }
+
+        body {
+            background-color: aliceblue;
+        }
+
+        img {
+            transform: scale(0.75);
+            display: block;
+        }
+    </style>
+</body>
+</html>
