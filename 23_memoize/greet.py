@@ -1,7 +1,6 @@
 def memoize(f):
     memo = {}
     def helper(i):
-        nonlocal memo
         if i in memo:
             return memo[i]
         else:
